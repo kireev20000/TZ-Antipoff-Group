@@ -11,8 +11,9 @@ class GeoDataAdmin(admin.ModelAdmin):
         'longitude',
         'latitude',
         'created',
+        'server_answer',
     )
     list_display_links = ('cadastral_number',)
-    search_fields = ('cadastral_number',)
-    list_filter = ('cadastral_number',)
+    search_fields = ('cadastral_number', )
+    list_filter = ('cadastral_number', 'server_answer')
     empty_value_display = '-пусто-'
