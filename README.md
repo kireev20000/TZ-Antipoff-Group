@@ -13,7 +13,7 @@
 ## Запуск проекта:
 Клонировать репозиторий
 ```sh
-git clone <ssh ссылка>
+git clone git@github.com:kireev20000/TZ-Antipoff-Group.git
 ```
 Cоздать и активировать виртуальное окружение:
 ```
@@ -29,7 +29,7 @@ pip install -r requirements.txt
 python manage.py runserver 8000
 ```
 ## Документация
-### Документация в формате доступна по адресу
+### Документация в формате OpenAPI 3.0 доступна по адресу
 http://127.0.0.1:8000/api/schema/swagger-ui/
 
 ---
@@ -47,4 +47,10 @@ python manage.py test api
 ### В корне репозитория лежит коллекция запросов для Postman.
 ```
 TZ-Antipoff-Group.postman_collection.json
+```
+###
+Запуск докера
+```
+docker build --tag python-django .
+docker run --publish 8000:8000 python-django
 ```
