@@ -1,16 +1,31 @@
-# api/serializers
 from random import randint, getrandbits
 from time import sleep
 
 import requests
+from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
 from rest_framework import serializers
 from .models import GeoData
 
-
+@extend_schema_serializer(
+    examples=[
+         OpenApiExample(
+            'Пример запроса',
+            summary='Создаем запрос по API',
+            description='Отправляем кадастровый номер, широту, долготу.',
+            value={
+                "cadastral_number": "50:21:0100208",
+                "longitude": 48.707103,
+                "latitude": 44.516939,
+            },
+            request_only=True
+         ),
+    ]
+)
 class GeoDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GeoData
+        read_only_fields = ('id', 'server_answer', 'created')
         fields = (
             "id",
             'cadastral_number',
