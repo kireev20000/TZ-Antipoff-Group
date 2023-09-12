@@ -3,7 +3,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import GeoListViewSet, GeoCreateViewSet, ping_server, send_result
+from .views import GeoCreateViewSet, GeoListViewSet, ping_server, send_result
 
 app_name = 'api'
 
