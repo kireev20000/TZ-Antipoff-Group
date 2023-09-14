@@ -85,7 +85,7 @@ def rates_converter(request):
         пример запроса /api/rates/?from=USD&to=RUB&value=1
     """
     # заметил только когда тестил что на этой API курсы валют древние, но суть
-    # не в этом, а в реализации сервера обмена валют, если нужно найду актуальный
+    # не в этом, а в реализации сервиса обмена валют, если нужно найду актуальный
     url = "https://currate.ru/api/"
     try:
         pair = request.query_params["from"] + request.query_params["to"]
