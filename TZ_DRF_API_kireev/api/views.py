@@ -1,5 +1,6 @@
 import socket
 
+import requests
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import (
     OpenApiParameter,
@@ -36,7 +37,6 @@ from .serializers import GeoDataSerializer
     ),
 )
 class GeoListViewSet(viewsets.ModelViewSet):
-
     queryset = GeoData.objects.all()
     serializer_class = GeoDataSerializer
     http_method_names = ('get',)
@@ -80,11 +80,31 @@ def ping_server(request):
 
 
 @api_view(['GET'])
-def send_result(request):
-    """ Отправляет результат по запросу пользователя. """
-    return Response(
-        {'success': f'Из задания я не понял что сюда надо слать / отвечать, '
-                    f'написал письмо HR который прислал '
-                    f'задания, ответа не получил'},
-        status=status.HTTP_204_NO_CONTENT,
-    )
+def rates_converter(request):
+    """ Отправляет результат конверсии валют.
+        пример запроса /api/rates/?from=USD&to=RUB&value=1
+    """
+    # заметил только когда тестил что на этой API курсы валют древние, но суть
+    # не в этом, а в реализации сервера обмена валют, если нужно найду актуальный
+    url = "https://currate.ru/api/"
+    try:
+        pair = request.query_params["from"] + request.query_params["to"]
+        value = int(request.query_params["value"])
+        querystring = {
+            "get": "rates",
+            "pairs": pair,
+            "key": "71f6975bc8100ca03678fba205fda66f"
+        }
+        request.query_params["value"]
+
+        response = requests.get(url, params=querystring).json()
+        result = float(response["data"][pair]) * value
+        return Response(
+            {'result': result},
+            status=status.HTTP_200_OK,
+        )
+    except:
+        return Response(
+            {'error': f'Ошибка при конвертации валюты!'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
